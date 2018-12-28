@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .box {
+            background: red;
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        /* window.onload = function () {
+                 var oBox = document.getElementById('box');
+           
+                 oBox.onmousedown = function (ev) {
+                   var disX = ev.clientX - this.offsetLeft;
+                   var disY = ev.clientY - this.offsetTop;
+                   document.onmousemove = function (ev) {
+                     oBox.style.left = ev.clientX - disX + 'px';
+                     oBox.style.top = ev.clientY - disY + 'px';
+                   }
+                   document.onmouseup = function () {
+                     document.onmousemove = document.onmouseup = null;
+                   }
+                   return false;
+                 }
+               } */
+//==============================手机端事件绑定推荐用2级事件绑定方式=================
+        document.addEventListener('DOMContentLoaded',function(){
+            var obox = document.querySelector('.box');
+            document.addEventListener('touchstart',function(eve){
+                eve.preventDefault();       //由于手机端
+            },false)
+            
+            obox.addEventListener('touchstart',function(eve){
+                var disX = eve.targetTouches[0].clientX - this.offsetLeft;
+                var dixY = eve.targetTouches[0].clientY - this.offsetTop;
+                document.addEventListener('touchmove',moveFun,false);
+                document.addEventListener('touchend',endFun,false);
+
+                function moveFun(eve){
+                    obox.style.left = eve.targetTouches[0].clientX - disX + 'px';
+                    obox.style.top = eve.targetTouches[0].clientY - dixY + 'px';
+                }
+
+                function endFun(eve){
+                    document.removeEventListener('touchmove',moveFun);
+                    document.removeEventListener('touchend',endFun)
+                }
+                
+                eve.preventDefault();
+            },false)
+        },false)
+    </script>
+    <div class="box"></div>
+</body>
+
+</html>
